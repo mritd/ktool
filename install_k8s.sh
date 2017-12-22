@@ -19,7 +19,7 @@ function download_k8s(){
 
     if [ ! -f "hyperkube_${KUBE_VERSION}" ]; then
       	wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube_${KUBE_VERSION}
-        chmod +x hyperkube
+        chmod +x hyperkubei_${KUBE_VERSION}
     fi
 
 }
