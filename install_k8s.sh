@@ -17,8 +17,8 @@ fi
 
 function download_k8s(){
 
-    if [ ! -f "hyperkube" ]; then
-      	wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube
+    if [ ! -f "hyperkube_${KUBE_VERSION}" ]; then
+      	wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube_${KUBE_VERSION}
         chmod +x hyperkube
     fi
 
@@ -49,7 +49,7 @@ function uninstall_k8s(){
 function install_k8s(){
 
     echo -e "\033[32mINFO: Copy hyperkube...\033[0m"
-    cp hyperkube /usr/local/bin/hyperkube
+    cp hyperkube_${KUBE_VERSION} /usr/local/bin/hyperkube
 	echo -e "\033[32mINFO: Create symbolic link...\033[0m"
     ln -sf /usr/local/bin/hyperkube /usr/local/bin/kubectl
 
