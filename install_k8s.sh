@@ -16,57 +16,63 @@ else
 fi
 
 function download_k8s(){
-
     if [ ! -f "hyperkube_${KUBE_VERSION}" ]; then
-      	wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube_${KUBE_VERSION}
+        wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube_${KUBE_VERSION}
         chmod +x hyperkube_${KUBE_VERSION}
     fi
-
 }
 
 function uninstall_k8s(){
-
-	echo -e "\033[33mWARNING: Delete hyperkube!\033[0m"
-	rm -f /usr/local/bin/hyperkube
+    echo -e "\033[33mWARNING: Delete hyperkube!\033[0m"
+    rm -f /usr/local/bin/hyperkube
     rm -f /usr/local/bin/kubectl
 
-	echo -e "\033[33mWARNING: Delete kubernetes config!\033[0m"
+    echo -e "\033[33mWARNING: Delete kubernetes config!\033[0m"
     rm -rf ${KUBE_CONF_INSTALL_DIR}
-	echo -e "\033[33mDelete: ${KUBE_CONF_INSTALL_DIR}\033[0m"
+    echo -e "\033[33mDelete: ${KUBE_CONF_INSTALL_DIR}\033[0m"
     
-	echo -e "\033[33mWARNING: Delete kubernetes systemd config!\033[0m"
+    echo -e "\033[33mWARNING: Delete kubernetes systemd config!\033[0m"
     allServices=(kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet)
     for serviceName in ${allServices[@]};do
         if [ -f "${KUBE_SYSTEMD_CONF_INSTALL_DIR}/${serviceName}.service" ]; then
-	        systemctl stop ${serviceName}.service
-        	rm -f ${KUBE_SYSTEMD_CONF_INSTALL_DIR}/${serviceName}.service
-	    	echo -e "\033[33mDelete: ${KUBE_SYSTEMD_CONF_INSTALL_DIR}/${serviceName}.service\033[0m"
-	    fi
+            systemctl stop ${serviceName}.service
+            rm -f ${KUBE_SYSTEMD_CONF_INSTALL_DIR}/${serviceName}.service
+            echo -e "\033[33mDelete: ${KUBE_SYSTEMD_CONF_INSTALL_DIR}/${serviceName}.service\033[0m"
+        fi
     done
-	systemctl daemon-reload
+    systemctl daemon-reload
+}
+
+function preinstall(){
+    getent group kube >/dev/null || groupadd -r kube
+    getent passwd kube >/dev/null || useradd -r -g kube -d / -s /sbin/nologin -c "Kubernetes user" kube
 }
 
 function install_k8s(){
-
     echo -e "\033[32mINFO: Copy hyperkube...\033[0m"
     cp hyperkube_${KUBE_VERSION} /usr/local/bin/hyperkube
-	echo -e "\033[32mINFO: Create symbolic link...\033[0m"
+    echo -e "\033[32mINFO: Create symbolic link...\033[0m"
     ln -sf /usr/local/bin/hyperkube /usr/local/bin/kubectl
 
-	echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
+    echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
     cp -r ${KUBE_CONF_DIR} ${KUBE_CONF_INSTALL_DIR}
 
-	echo -e "\033[32mINFO: Copy kubernetes systemd config...\033[0m"
+    echo -e "\033[32mINFO: Copy kubernetes systemd config...\033[0m"
     cp ${KUBE_SYSTEMD_CONF_DIR}/*.service ${KUBE_SYSTEMD_CONF_INSTALL_DIR}
     systemctl daemon-reload
+}
 
+function postinstall(){
+    mkdir /etc/kubernetes/ssl
+    chown -R kube:kube /etc/kubernetes/ssl
 }
 
 
 download_k8s
 uninstall_k8s
+preinstall
 install_k8s
-
+postinstall
 
 
  
