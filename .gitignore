@@ -1,1 +1,2 @@
-hyperkube*
+k8s/hyperkube*
+etcd/*.tar.gz
