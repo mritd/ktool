@@ -3,4 +3,5 @@ etcd/*.tar.gz
 certs/**/*.pem
 certs/**/*.csr
 certs/**/*.csv
+certs/**/*.yaml
 certs/**/*.kubeconfig
