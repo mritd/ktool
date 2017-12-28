@@ -1,2 +1,6 @@
 k8s/hyperkube*
 etcd/*.tar.gz
+certs/**/*.pem
+certs/**/*.csr
+certs/**/*.csv
+certs/**/*.kubeconfig
