@@ -47,6 +47,7 @@ function install_etcd(){
 
     echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
     cp -r conf /etc/etcd
+    mkdir /etc/etcd/ssl
 
     echo -e "\033[32mINFO: Copy kubernetes systemd config...\033[0m"
     cp systemd/*.service /lib/systemd/system
