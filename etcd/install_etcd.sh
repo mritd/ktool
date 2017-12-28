@@ -14,7 +14,7 @@ fi
 function download_etcd(){
     if [ ! -f "etcd-v${ETCD_VERSION}-linux-arm64.tar.gz" ]; then
         wget https://github.com/coreos/etcd/releases/download/v${ETCD_VERSION}/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
-        tar -zxvf etcd-v${ETCD_VERSION}-linux-arm64.tar.gz
+        tar -zxvf etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
     fi
 }
 
@@ -40,16 +40,15 @@ function preinstall(){
 
 function install_etcd(){
     echo -e "\033[32mINFO: Copy etcd...\033[0m"
-	tar -zxvf etcd-v${ETCD_VERSION}-linux-arm64.tar.gz
-	cp etcd-v${ETCD_VERSION}-linux-arm64/etcd /usr/local/bin/etcd
-	cp etcd-v${ETCD_VERSION}-linux-arm64/etcdctl /usr/local/bin/etcdctl
-	rm -rf etcd-v${ETCD_VERSION}-linux-arm64
+	tar -zxvf etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
+	cp etcd-v${ETCD_VERSION}-linux-adm64/etcd* /usr/local/bin
+	rm -rf etcd-v${ETCD_VERSION}-linux-amd64
 
-    echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
+    echo -e "\033[32mINFO: Copy etcd config...\033[0m"
     cp -r conf /etc/etcd
     mkdir /etc/etcd/ssl
 
-    echo -e "\033[32mINFO: Copy kubernetes systemd config...\033[0m"
+    echo -e "\033[32mINFO: Copy etcd systemd config...\033[0m"
     cp systemd/*.service /lib/systemd/system
     systemctl daemon-reload
 }
