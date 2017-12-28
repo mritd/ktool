@@ -41,7 +41,7 @@ function preinstall(){
 function install_etcd(){
     echo -e "\033[32mINFO: Copy etcd...\033[0m"
 	tar -zxvf etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
-	cp etcd-v${ETCD_VERSION}-linux-adm64/etcd* /usr/local/bin
+	cp etcd-v${ETCD_VERSION}-linux-amd64/etcd* /usr/local/bin
 	rm -rf etcd-v${ETCD_VERSION}-linux-amd64
 
     echo -e "\033[32mINFO: Copy etcd config...\033[0m"
