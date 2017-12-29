@@ -8,7 +8,8 @@ rm -rf /etc/etcd /var/lib/etcd
 
 echo -e "\033[33mWARNING: Delete etcd systemd config!\033[0m"
 if [ -z "/lib/systemd/system/etcd.service" ]; then
-    systemctl stop etcd.service
+    systemctl disable etcd
+    systemctl stop etcd
     rm -f /lib/systemd/system/etcd.service
 fi
 systemctl daemon-reload
