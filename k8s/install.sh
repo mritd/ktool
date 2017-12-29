@@ -40,9 +40,8 @@ function install_k8s(){
 }
 
 function postinstall(){
-    [ ! -d "/etc/kubernetes/ssl" ] && mkdir /etc/kubernetes/ssl
     [ ! -d "/var/log/kube-audit" ] && mkdir /var/log/kube-audit
-    chown -R kube:kube /etc/kubernetes/ssl /var/log/kube-audit
+    chown -R kube:kube /var/log/kube-audit
 }
 
 
