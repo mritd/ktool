@@ -11,7 +11,8 @@ echo -e "\033[33mWARNING: Delete kubernetes systemd config!\033[0m"
 allServices=(kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet)
 for serviceName in ${allServices[@]};do
     if [ -f "/lib/systemd/system/${serviceName}.service" ]; then
-        systemctl stop ${serviceName}.service
+        systemctl disable ${serviceName}
+        systemctl stop ${serviceName}
         rm -f /lib/systemd/system/${serviceName}.service
         echo -e "\033[33mDelete: /lib/systemd/system/${serviceName}.service\033[0m"
     fi
