@@ -32,7 +32,7 @@ function install_k8s(){
     ln -sf /usr/local/bin/hyperkube /usr/local/bin/kubectl
 
     echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
-    [ ! -d "/etc/kubernetes" ] && cp -r config /etc/kubernetes
+    [ ! -d "/etc/kubernetes" ] && cp -r conf /etc/kubernetes
 
     echo -e "\033[32mINFO: Copy kubernetes systemd config...\033[0m"
     cp systemd/*.service /lib/systemd/system
