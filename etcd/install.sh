@@ -11,7 +11,7 @@ else
   ETCD_VERSION=${ETCD_DEFAULT_VERSION}
 fi
 
-function download_etcd(){
+function download(){
     if [ ! -f "etcd-v${ETCD_VERSION}-linux-amd64.tar.gz" ]; then
         wget https://github.com/coreos/etcd/releases/download/v${ETCD_VERSION}/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
         tar -zxvf etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
@@ -23,7 +23,7 @@ function preinstall(){
 	getent passwd etcd >/dev/null || useradd -r -g etcd -d /var/lib/etcd -s /sbin/nologin -c "etcd user" etcd
 }
 
-function install_etcd(){
+function install(){
     echo -e "\033[32mINFO: Copy etcd...\033[0m"
 	tar -zxvf etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
 	cp etcd-v${ETCD_VERSION}-linux-amd64/etcd* /usr/local/bin
@@ -45,8 +45,7 @@ function postinstall(){
 }
 
 
-download_etcd
-uninstall_etcd
+download
 preinstall
-install_etcd
+install
 postinstall
