@@ -18,21 +18,6 @@ function download_etcd(){
     fi
 }
 
-function uninstall_etcd(){
-    echo -e "\033[33mWARNING: Delete etcd!\033[0m"
-    rm -f /usr/local/bin/etcd /usr/local/bin/etcdctl
-
-    echo -e "\033[33mWARNING: Delete etcd config!\033[0m"
-    rm -rf /etc/etcd
-    
-    echo -e "\033[33mWARNING: Delete etcd systemd config!\033[0m"
-    if [ -z "/lib/systemd/system/etcd.service" ]; then 
-        systemctl stop etcd.service
-        rm -f /lib/systemd/system/etcd.service
-    fi
-    systemctl daemon-reload
-}
-
 function preinstall(){
 	getent group etcd >/dev/null || groupadd -r etcd
 	getent passwd etcd >/dev/null || useradd -r -g etcd -d /var/lib/etcd -s /sbin/nologin -c "etcd user" etcd
@@ -66,6 +51,3 @@ uninstall_etcd
 preinstall
 install_etcd
 postinstall
-
-
- 
