@@ -5,7 +5,7 @@ rm -f /usr/local/bin/hyperkube
 rm -f /usr/local/bin/kubectl
 
 echo -e "\033[33mWARNING: Delete kubernetes config!\033[0m"
-rm -rf /etc/kubernetes /var/log/kube-audit
+rm -rf /etc/kubernetes /var/log/kube-audit /var/lib/kubelet
 
 echo -e "\033[33mWARNING: Delete kubernetes systemd config!\033[0m"
 allServices=(kube-apiserver kube-controller-manager kube-proxy kube-scheduler kubelet)
