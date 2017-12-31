@@ -41,7 +41,8 @@ function install_k8s(){
 
 function postinstall(){
     [ ! -d "/var/log/kube-audit" ] && mkdir /var/log/kube-audit
-    chown -R kube:kube /var/log/kube-audit
+    [ ! -d "/var/lib/kubelet" ] && mkdir /var/lib/kubelet
+    chown -R kube:kube /var/log/kube-audit /var/lib/kubelet
 }
 
 
