@@ -5,7 +5,7 @@ export BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
 echo "Tokne: ${BOOTSTRAP_TOKEN}"
 
 cat > token.csv <<EOF
-${BOOTSTRAP_TOKEN},kubelet-bootstrap,10001,"system:kubelet-bootstrap"
+${BOOTSTRAP_TOKEN},kubelet-bootstrap,10001,"system:bootstrappers"
 EOF
 
 echo "Create kubelet bootstrapping kubeconfig..."
