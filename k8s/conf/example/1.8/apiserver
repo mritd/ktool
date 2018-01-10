@@ -1,0 +1,48 @@
+###
+# kubernetes system config
+#
+# The following values are used to configure the kube-apiserver
+#
+
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--advertise-address=172.16.0.81 --insecure-bind-address=127.0.0.1 --bind-address=172.16.0.81"
+
+# The port on the local server to listen on.
+KUBE_API_PORT="--insecure-port=8080 --secure-port=6443"
+
+# Port minions listen on
+# KUBELET_PORT="--kubelet-port=10250"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd-servers=https://172.16.0.81:2379,https://172.16.0.82:2379,https://172.16.0.83:2379"
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
+
+# default admission control policies
+KUBE_ADMISSION_CONTROL="--admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota,NodeRestriction"
+
+# Add your own!
+KUBE_API_ARGS="--authorization-mode=Node,RBAC \
+               --anonymous-auth=false \
+               --kubelet-https=true \
+               --enable-bootstrap-token-auth \
+               --token-auth-file=/etc/kubernetes/token.csv \
+               --service-node-port-range=30000-50000 \
+               --tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem \
+               --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
+               --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+               --service-account-key-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+               --etcd-quorum-read=true \
+               --storage-backend=etcd3 \
+               --etcd-cafile=/etc/etcd/ssl/etcd-root-ca.pem \
+               --etcd-certfile=/etc/etcd/ssl/etcd.pem \
+               --etcd-keyfile=/etc/etcd/ssl/etcd-key.pem \
+               --enable-swagger-ui=true \
+               --apiserver-count=3 \
+               --audit-policy-file=/etc/kubernetes/audit-policy.yaml \
+               --audit-log-maxage=30 \
+               --audit-log-maxbackup=3 \
+               --audit-log-maxsize=100 \
+               --audit-log-path=/var/log/kube-audit/audit.log \
+               --event-ttl=1h"
