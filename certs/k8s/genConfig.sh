@@ -1,7 +1,13 @@
 #!/bin/bash
 
-export KUBE_APISERVER="https://127.0.0.1:6443"
-export BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
+cfssl gencert --initca=true k8s-root-ca-csr.json | cfssljson --bare k8s-root-ca
+
+for targetName in kubernetes admin kube-proxy; do
+    cfssl gencert --ca k8s-root-ca.pem --ca-key k8s-root-ca-key.pem --config k8s-gencert.json --profile kubernetes $targetName-csr.json | cfssljson --bare $targetName
+done
+
+KUBE_APISERVER="https://127.0.0.1:6443"
+BOOTSTRAP_TOKEN=$(head -c 16 /dev/urandom | od -An -t x | tr -d ' ')
 echo "Tokne: ${BOOTSTRAP_TOKEN}"
 
 cat > token.csv <<EOF
@@ -48,3 +54,11 @@ kubectl config set-context default \
   --kubeconfig=kube-proxy.kubeconfig
 # 设置默认上下文
 kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig 
+
+cat >> audit-policy.yaml <<EOF
+# Log all requests at the Metadata level.
+apiVersion: audit.k8s.io/v1beta1
+kind: Policy
+rules:
+- level: Metadata
+EOF
