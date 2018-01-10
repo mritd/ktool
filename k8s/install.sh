@@ -2,7 +2,7 @@
 
 set -e
 
-KUBE_DEFAULT_VERSION="1.8.5"
+KUBE_DEFAULT_VERSION="1.8.6"
 
 if [ "$1" != "" ]; then
   KUBE_VERSION=$1
@@ -33,7 +33,9 @@ function install_k8s(){
 
     echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
     cp -r conf /etc/kubernetes
-    chown -R kube:kube /etc/kubernetes/ssl
+    if [ -d "/etc/kubernetes/ssl" ]; then
+        chown -R kube:kube /etc/kubernetes/ssl
+    fi
 
     echo -e "\033[32mINFO: Copy kubernetes systemd config...\033[0m"
     cp systemd/*.service /lib/systemd/system
@@ -41,8 +43,13 @@ function install_k8s(){
 }
 
 function postinstall(){
-    [ ! -d "/var/log/kube-audit" ] && mkdir /var/log/kube-audit
-    [ ! -d "/var/lib/kubelet" ] && mkdir /var/lib/kubelet
+    if [ ! -d "/var/log/kube-audit" ]; then
+        mkdir /var/log/kube-audit
+    fi
+    
+    if [ ! -d "/var/lib/kubelet" ]; then
+        mkdir /var/lib/kubelet
+    fi
     chown -R kube:kube /var/log/kube-audit /var/lib/kubelet
 }
 
