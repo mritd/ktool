@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo -e "\033[33mWARNING: Delete hyperkube!\033[0m"
 rm -f /usr/local/bin/hyperkube
 rm -f /usr/local/bin/kubectl
