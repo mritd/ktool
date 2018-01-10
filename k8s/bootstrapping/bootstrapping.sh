@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 KUBE_VERSION="$1"
 
 if [ "" == "${KUBE_VERSION}" ]; then
