@@ -18,6 +18,8 @@ KUBELET_ARGS="--cgroup-driver=cgroupfs \
               --cluster-dns=10.254.0.2 \
               --resolv-conf=/etc/resolv.conf \
               --experimental-bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+              --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
+              --rotate-certificates \
               --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
               --fail-swap-on=false \
               --cert-dir=/etc/kubernetes/ssl \

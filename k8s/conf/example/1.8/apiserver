@@ -28,8 +28,6 @@ KUBE_API_ARGS="--authorization-mode=Node,RBAC \
                --kubelet-https=true \
                --enable-bootstrap-token-auth \
                --token-auth-file=/etc/kubernetes/token.csv \
-          	   --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
-               --rotate-certificates \
                --service-node-port-range=30000-50000 \
                --tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem \
                --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
