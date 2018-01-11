@@ -1,6 +1,7 @@
 k8s/hyperkube*
 k8s/conf/*.yaml
 certs/**/*.yaml
+calico/calico.yaml
 *.tar.gz
 *.pem
 *.csr
