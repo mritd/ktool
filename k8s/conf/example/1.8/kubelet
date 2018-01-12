@@ -22,6 +22,9 @@ KUBELET_ARGS="--cgroup-driver=cgroupfs \
               --rotate-certificates \
               --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
               --fail-swap-on=false \
+              --image-gc-high-threshold=70 \
+              --image-gc-low-threshold=60 \
+              --kube-reserved=cpu=1000m,memory=2048Mi,ephemeral-storage=1Gi \
               --cert-dir=/etc/kubernetes/ssl \
               --cluster-domain=cluster.local. \
               --hairpin-mode=promiscuous-bridge \
