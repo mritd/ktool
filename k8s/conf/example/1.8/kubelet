@@ -26,4 +26,4 @@ KUBELET_ARGS="--cgroup-driver=cgroupfs \
               --cluster-domain=cluster.local. \
               --hairpin-mode=promiscuous-bridge \
               --serialize-image-pulls=false \
-              --pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0"
+              --pod-infra-container-image=k8s.gcr.io/pause-amd64:3.0"
