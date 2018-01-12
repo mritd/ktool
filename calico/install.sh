@@ -12,7 +12,7 @@ if [ "" == "${K8S_MASTER_IP}" ]; then
 fi
 
 if [ "" == "${ETCD_ENDPOINTS}" ]; then
-    echo -e "\033[33mWARNING: K8S_MASTER_IP is blank,use default value: https://172.16.0.81:2379,https://172.16.0.82:2379,https://172.16.0.83:2379\033[0m"
+    echo -e "\033[33mWARNING: ETCD_ENDPOINTS is blank,use default value: https://172.16.0.81:2379,https://172.16.0.82:2379,https://172.16.0.83:2379\033[0m"
     ETCD_ENDPOINTS="https://172.16.0.81:2379,https://172.16.0.82:2379,https://172.16.0.83:2379"
 fi
 
@@ -107,3 +107,4 @@ echo -e "\033[32m\nGenerate the configuration file done! Next:\n\033[0m"
 echo -e "\033[32mUse \"kubectl create -f rbac.yaml\" to create RBAC resources.\033[0m"
 echo -e "\033[32mUse \"kubectl create -f calico.yaml\" to create calico-kube-controllers.\033[0m"
 echo -e "\033[32mUse \"systemctl start calico-node\" to start calico-node service.\033[0m"
+echo -e "\033[32m\nFinally, do not forget to add an \"--network-plugin=cni\" option to kubelet.\033[0m"
