@@ -68,9 +68,9 @@ ExecStart=/usr/bin/docker run   --net=host --privileged --name=calico-node \\
                                 -e FELIX_IPINIPMTU=1440 \\
                                 -e FELIX_HEALTHENABLED=true \\
                                 -e CALICO_K8S_NODE_REF=${HOSTNAME} \\
-                                -v /etc/etcd/ssl/etcd-root-ca.pem:/etc/etcd/ssl/etcd-root-ca.pem \\
-                                -v /etc/etcd/ssl/etcd.pem:/etc/etcd/ssl/etcd.pem \\
-                                -v /etc/etcd/ssl/etcd-key.pem:/etc/etcd/ssl/etcd-key.pem \\
+                                -v /etc/calico/etcd-root-ca.pem:/etc/etcd/ssl/etcd-root-ca.pem \\
+                                -v /etc/calico/etcd.pem:/etc/etcd/ssl/etcd.pem \\
+                                -v /etc/calico/etcd-key.pem:/etc/etcd/ssl/etcd-key.pem \\
                                 -v /lib/modules:/lib/modules \\
                                 -v /var/run/calico:/var/run/calico \\
                                 quay.io/calico/node:v3.0.1
