@@ -5,3 +5,5 @@ rm -f etcd/{*.pem,*.csr}
 
 rm -rf ../k8s/conf/{*.kubeconfig,*.yaml,token.csv,ssl}
 rm -rf ../etcd/conf/ssl
+
+rm -rf ../calico/conf/*.pem

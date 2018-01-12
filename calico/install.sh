@@ -17,9 +17,9 @@ if [ "" == "${ETCD_ENDPOINTS}" ]; then
 fi
 
 HOSTNAME=`cat /etc/hostname`
-ETCD_CERT=`cat /etc/etcd/ssl/etcd.pem | base64 | tr -d '\n'`
-ETCD_KEY=`cat /etc/etcd/ssl/etcd-key.pem | base64 | tr -d '\n'`
-ETCD_CA=`cat /etc/etcd/ssl/etcd-root-ca.pem | base64 | tr -d '\n'`
+ETCD_CERT=`cat conf/etcd.pem | base64 | tr -d '\n'`
+ETCD_KEY=`cat conf/etcd-key.pem | base64 | tr -d '\n'`
+ETCD_CA=`cat conf/etcd-root-ca.pem | base64 | tr -d '\n'`
 
 
 cp calico.example.yaml calico.yaml
@@ -91,10 +91,17 @@ fi
 
 # Load calico image
 tar -zxvf calico_v${CALICO_VERSION}.tar.gz > images
-for imageName in `cat images`; do
+for imageName in `cat images | grep "quay.io"`; do
     docker load < $imageName
 done
 rm -f *.tar images
+
+mv calicoctl_* /usr/local/bin/calicoctl
+
+sed -i "s@.*etcdEndpoints:.*@\ \ etcdEndpoints:\ ${ETCD_ENDPOINTS}@gi" conf/calicoctl.cfg
+
+rm -rf /etc/calico && cp -r conf /etc/calico
+
 
 echo -e "\033[32m\nGenerate the configuration file done! Next:\n\033[0m"
 echo -e "\033[32mUse \"kubectl create -f rbac.yaml\" to create RBAC resources.\033[0m"
