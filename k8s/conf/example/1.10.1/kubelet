@@ -1,0 +1,34 @@
+###
+# kubernetes kubelet (minion) config
+
+# The address for the info server to serve on (set to 0.0.0.0 or "" for all interfaces)
+KUBELET_ADDRESS="--node-ip=172.16.0.36"
+
+# The port for the info server to serve on
+# KUBELET_PORT="--port=10250"
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME="--hostname-override=test36.node"
+
+# location of the api-server
+# KUBELET_API_SERVER=""
+
+# Add your own!
+KUBELET_ARGS="  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+                --cert-dir=/etc/kubernetes/ssl \
+                --cgroup-driver=cgroupfs \
+                --cluster-dns=10.254.0.2 \
+                --cluster-domain=cluster.local. \
+                --fail-swap-on=false \
+                --feature-gates=RotateKubeletClientCertificate=true,RotateKubeletServerCertificate=true \
+                --node-labels=node-role.kubernetes.io/k8s-master=true \
+                --image-gc-high-threshold=70 \
+                --image-gc-low-threshold=50 \
+                --kube-reserved=cpu=500m,memory=512Mi,ephemeral-storage=1Gi \
+                --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+                --system-reserved=cpu=1000m,memory=1024Mi,ephemeral-storage=1Gi \
+                --serialize-image-pulls=false \
+                --sync-frequency=30s \
+                --pod-infra-container-image=k8s.gcr.io/pause-amd64:3.0 \
+                --resolv-conf=/etc/resolv.conf \
+                --rotate-certificates"

@@ -2,7 +2,7 @@
 
 set -e
 
-ETCD_DEFAULT_VERSION="3.2.12"
+ETCD_DEFAULT_VERSION="3.2.18"
 
 if [ "$1" != "" ]; then
   ETCD_VERSION=$1

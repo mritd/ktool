@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KUBE_VERSION=${1:-"1.8.6"}
+KUBE_VERSION=${1:-"1.10.1"}
 
 if [ ! -f "k8s_images_v${KUBE_VERSION}.tar.gz" ]; then
     wget https://mritdftp.b0.upaiyun.com/files/kubernetes/k8s_images_v${KUBE_VERSION}.tar.gz

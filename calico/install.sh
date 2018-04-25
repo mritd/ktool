@@ -4,16 +4,16 @@ set -e
 
 K8S_MASTER_IP=$1
 ETCD_ENDPOINTS=$2
-CALICO_VERSION="3.0.1"
+CALICO_VERSION="3.1.0"
 
 if [ "" == "${K8S_MASTER_IP}" ]; then
    echo -e "\033[33mWARNING: K8S_MASTER_IP is blank,use default value: 172.16.0.81\033[0m"
-   K8S_MASTER_IP="172.16.0.81"
+   K8S_MASTER_IP="172.16.0.36"
 fi
 
 if [ "" == "${ETCD_ENDPOINTS}" ]; then
     echo -e "\033[33mWARNING: ETCD_ENDPOINTS is blank,use default value: https://172.16.0.81:2379,https://172.16.0.82:2379,https://172.16.0.83:2379\033[0m"
-    ETCD_ENDPOINTS="https://172.16.0.81:2379,https://172.16.0.82:2379,https://172.16.0.83:2379"
+    ETCD_ENDPOINTS="https://172.16.0.36:2379,https://172.16.0.37:2379,https://172.16.0.33:2379"
 fi
 
 HOSTNAME=`cat /etc/hostname`
@@ -35,7 +35,7 @@ sed -i 's@.*etcd_cert:.*@\ \ etcd_cert:\ "/calico-secrets/etcd-cert"@gi' calico.
 sed -i 's@.*etcd_key:.*@\ \ etcd_key:\ "/calico-secrets/etcd-key"@gi' calico.yaml
 
 # 注释掉 calico-node 部分(由 Systemd 接管)
-sed -i '119,210s@.*@#&@gi' calico.yaml
+sed -i '123,219s@.*@#&@gi' calico.yaml
 
 cat > /lib/systemd/system/calico-node.service <<EOF
 [Unit]
@@ -72,8 +72,9 @@ ExecStart=/usr/bin/docker run   --net=host --privileged --name=calico-node \\
                                 -v /etc/calico/etcd.pem:/etc/etcd/ssl/etcd.pem \\
                                 -v /etc/calico/etcd-key.pem:/etc/etcd/ssl/etcd-key.pem \\
                                 -v /lib/modules:/lib/modules \\
+                                -v /var/lib/calico:/var/lib/calico \\
                                 -v /var/run/calico:/var/run/calico \\
-                                quay.io/calico/node:v3.0.1
+                                quay.io/calico/node:v${CALICO_VERSION}
 ExecStop=/usr/bin/docker rm -f calico-node
 Restart=always
 RestartSec=10

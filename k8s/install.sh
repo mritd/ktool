@@ -2,7 +2,7 @@
 
 set -e
 
-KUBE_DEFAULT_VERSION="1.8.6"
+KUBE_DEFAULT_VERSION="1.10.1"
 
 if [ "$1" != "" ]; then
   KUBE_VERSION=$1
@@ -12,9 +12,9 @@ else
 fi
 
 function download_k8s(){
-    if [ ! -f "hyperkube_${KUBE_VERSION}" ]; then
-        wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube_${KUBE_VERSION}
-        chmod +x hyperkube_${KUBE_VERSION}
+    if [ ! -f "hyperkube_v${KUBE_VERSION}" ]; then
+        wget https://storage.googleapis.com/kubernetes-release/release/v${KUBE_VERSION}/bin/linux/amd64/hyperkube -O hyperkube_v${KUBE_VERSION}
+        chmod +x hyperkube_v${KUBE_VERSION}
     fi
 }
 
@@ -26,7 +26,7 @@ function preinstall(){
 
 function install_k8s(){
     echo -e "\033[32mINFO: Copy hyperkube...\033[0m"
-    cp hyperkube_${KUBE_VERSION} /usr/local/bin/hyperkube
+    cp hyperkube_v${KUBE_VERSION} /usr/local/bin/hyperkube
 
     echo -e "\033[32mINFO: Create symbolic link...\033[0m"
     ln -sf /usr/local/bin/hyperkube /usr/local/bin/kubectl

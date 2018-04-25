@@ -114,7 +114,7 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.1
+        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3
         ports:
         - containerPort: 8443
           protocol: TCP
@@ -151,7 +151,6 @@ spec:
 
 ---
 # ------------------- Dashboard Service ------------------- #
-
 kind: Service
 apiVersion: v1
 metadata:
@@ -160,8 +159,12 @@ metadata:
   name: kubernetes-dashboard
   namespace: kube-system
 spec:
+  type: NodePort
   ports:
-    - port: 443
+    - name: dashboard-tls
+      port: 443
       targetPort: 8443
+      nodePort: 30000
+      protocol: TCP
   selector:
     k8s-app: kubernetes-dashboard

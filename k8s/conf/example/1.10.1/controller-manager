@@ -1,0 +1,21 @@
+###
+# The following values are used to configure the kubernetes controller-manager
+
+# defaults from config and apiserver should be adequate
+
+# Add your own!
+KUBE_CONTROLLER_MANAGER_ARGS="  --bind-address=0.0.0.0 \
+                                --cluster-name=kubernetes \
+                                --cluster-signing-cert-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --cluster-signing-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --controllers=*,bootstrapsigner,tokencleaner \
+                                --deployment-controller-sync-period=10s \
+                                --experimental-cluster-signing-duration=86700h0m0s \
+                                --leader-elect=true \
+                                --node-monitor-grace-period=40s \
+                                --node-monitor-period=5s \
+                                --pod-eviction-timeout=5m0s \
+                                --terminated-pod-gc-threshold=50 \
+                                --root-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --service-account-private-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --feature-gates=RotateKubeletServerCertificate=true"

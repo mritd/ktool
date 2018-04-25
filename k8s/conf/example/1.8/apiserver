@@ -29,8 +29,8 @@ KUBE_API_ARGS="--authorization-mode=Node,RBAC \
                --enable-bootstrap-token-auth \
                --token-auth-file=/etc/kubernetes/token.csv \
                --service-node-port-range=30000-50000 \
-               --tls-cert-file=/etc/kubernetes/ssl/kubernetes.pem \
-               --tls-private-key-file=/etc/kubernetes/ssl/kubernetes-key.pem \
+               --tls-cert-file=/etc/kubernetes/ssl/kube-apiserver.pem \
+               --tls-private-key-file=/etc/kubernetes/ssl/kube-apiserver-key.pem \
                --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
                --service-account-key-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
                --etcd-quorum-read=true \
