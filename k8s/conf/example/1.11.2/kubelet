@@ -1,0 +1,28 @@
+###
+# kubernetes kubelet (minion) config
+
+# The address for the info server to serve on (set to 0.0.0.0 or "" for all interfaces)
+KUBELET_ADDRESS="--node-ip=192.168.1.64"
+
+# The port for the info server to serve on
+# KUBELET_PORT="--port=10250"
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME="--hostname-override=docker4.node"
+
+# location of the api-server
+# KUBELET_API_SERVER=""
+
+# Add your own!
+KUBELET_ARGS="  --alsologtostderr \
+                --logtostderr=true \
+                --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+                --network-plugin=cni \
+                --cni-conf-dir=/etc/cni/net.d \
+                --cert-dir=/etc/kubernetes/ssl \
+                --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --node-labels=node-role.kubernetes.io/k8s-node=true \
+                --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+                --pod-infra-container-image=gcrxio/pause:3.1 \
+                --config=/etc/kubernetes/kubeletconfig.yaml \
+                --v=2"

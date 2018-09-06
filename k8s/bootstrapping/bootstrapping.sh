@@ -11,7 +11,7 @@ fi
 
 kubectl create clusterrolebinding kubelet-bootstrap \
     --clusterrole=system:node-bootstrapper \
-    --user=kubelet-bootstrap
+    --group=system:bootstrappers
 
 kubectl create -f tls-bootstrapping-clusterrole-${KUBE_VERSION}.yaml
 
@@ -29,3 +29,5 @@ kubectl create clusterrolebinding node-client-auto-renew-crt \
 kubectl create clusterrolebinding node-server-auto-renew-crt \
 	--clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeserver \
 	--group=system:nodes
+
+kubectl create clusterrolebinding kubelet-admin --clusterrole=system:kubelet-api-admin --user=kubernetes

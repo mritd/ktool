@@ -1,0 +1,31 @@
+###
+# The following values are used to configure the kubernetes controller-manager
+
+# defaults from config and apiserver should be adequate
+
+# Add your own!
+KUBE_CONTROLLER_MANAGER_ARGS="  --address=127.0.0.1 \
+                                --bind-address=192.168.1.61 \
+                                --port=10252 \
+                                --secure-port=10258 \
+                                --cluster-cidr=10.20.0.0/16 \
+                                --allocate-node-cidrs=true \
+                                --service-cluster-ip-range=10.254.0.0/16 \
+                                --cluster-name=kubernetes \
+                                --cluster-signing-cert-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --cluster-signing-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --controllers=*,bootstrapsigner,tokencleaner \
+                                --deployment-controller-sync-period=10s \
+                                --experimental-cluster-signing-duration=86700h0m0s \
+                                --enable-garbage-collector=true \
+                                --leader-elect=true \
+                                --master=http://127.0.0.1:8080 \
+                                --node-monitor-grace-period=40s \
+                                --node-monitor-period=5s \
+                                --pod-eviction-timeout=5m0s \
+                                --terminated-pod-gc-threshold=50 \
+                                --root-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --service-account-private-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --feature-gates=RotateKubeletServerCertificate=true \
+                                --logtostderr=true \
+                                --v=2"

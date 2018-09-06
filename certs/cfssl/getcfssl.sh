@@ -1,7 +1,9 @@
 #!/bin/bash
 
-wget https://mritdftp.b0.upaiyun.com/cfssl/cfssl.tar.gz
+set -e
+
+wget https://mritdftp.b0.upaiyun.com/files/cfssl/cfssl.tar.gz
 tar -zxvf cfssl.tar.gz
-mv cfssl cfssljson /usr/local/bin
-chmod +x /usr/local/bin/cfssl /usr/local/bin/cfssljson
+mv cfssl* /usr/bin
+chmod +x /usr/bin/cfssl*
 rm -f cfssl.tar.gz

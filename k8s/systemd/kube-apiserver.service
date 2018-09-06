@@ -5,10 +5,9 @@ After=network.target
 After=etcd.service
 
 [Service]
-EnvironmentFile=-/etc/kubernetes/config
 EnvironmentFile=-/etc/kubernetes/apiserver
 User=kube
-ExecStart=/usr/local/bin/hyperkube apiserver \
+ExecStart=/usr/bin/kube-apiserver \
 	    $KUBE_LOGTOSTDERR \
 	    $KUBE_LOG_LEVEL \
 	    $KUBE_ETCD_SERVERS \

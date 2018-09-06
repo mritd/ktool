@@ -2,7 +2,7 @@
 
 set -e
 
-KUBE_DEFAULT_VERSION="1.10.1"
+KUBE_DEFAULT_VERSION="1.11.2"
 
 if [ "$1" != "" ]; then
   KUBE_VERSION=$1
@@ -26,10 +26,10 @@ function preinstall(){
 
 function install_k8s(){
     echo -e "\033[32mINFO: Copy hyperkube...\033[0m"
-    cp hyperkube_v${KUBE_VERSION} /usr/local/bin/hyperkube
+    cp hyperkube_v${KUBE_VERSION} /usr/bin/hyperkube
 
     echo -e "\033[32mINFO: Create symbolic link...\033[0m"
-    ln -sf /usr/local/bin/hyperkube /usr/local/bin/kubectl
+    (cd /usr/bin && hyperkube --make-symlinks)
 
     echo -e "\033[32mINFO: Copy kubernetes config...\033[0m"
     cp -r conf /etc/kubernetes
@@ -50,7 +50,10 @@ function postinstall(){
     if [ ! -d "/var/lib/kubelet" ]; then
         mkdir /var/lib/kubelet
     fi
-    chown -R kube:kube /var/log/kube-audit /var/lib/kubelet
+    if [ ! -d "/usr/libexec" ]; then
+        mkdir /usr/libexec
+    fi
+    chown -R kube:kube /var/log/kube-audit /var/lib/kubelet /usr/libexec
 }
 
 

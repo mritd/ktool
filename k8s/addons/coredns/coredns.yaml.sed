@@ -53,11 +53,14 @@ data:
           pods insecure
           upstream
           fallthrough in-addr.arpa ip6.arpa
-        }
+        }FEDERATIONS
         prometheus :9153
-        proxy . /etc/resolv.conf
+        proxy . UPSTREAMNAMESERVER
         cache 30
-    }
+        loop
+        reload
+        loadbalance
+    }STUBDOMAINS
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -83,16 +86,25 @@ spec:
     spec:
       serviceAccountName: coredns
       tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
         - key: "CriticalAddonsOnly"
           operator: "Exists"
       containers:
       - name: coredns
-        image: coredns/coredns:1.1.1
+        image: coredns/coredns:1.2.2
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 170Mi
+          requests:
+            cpu: 100m
+            memory: 70Mi
         args: [ "-conf", "/etc/coredns/Corefile" ]
         volumeMounts:
         - name: config-volume
           mountPath: /etc/coredns
+          readOnly: true
         ports:
         - containerPort: 53
           name: dns
@@ -103,6 +115,14 @@ spec:
         - containerPort: 9153
           name: metrics
           protocol: TCP
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - NET_BIND_SERVICE
+            drop:
+            - all
+          readOnlyRootFilesystem: true
         livenessProbe:
           httpGet:
             path: /health
@@ -127,6 +147,7 @@ metadata:
   name: kube-dns
   namespace: kube-system
   annotations:
+    prometheus.io/port: "9153"
     prometheus.io/scrape: "true"
   labels:
     k8s-app: kube-dns

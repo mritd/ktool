@@ -3,8 +3,7 @@
 set -e
 
 echo -e "\033[33mWARNING: Delete hyperkube!\033[0m"
-rm -f /usr/local/bin/hyperkube
-rm -f /usr/local/bin/kubectl
+rm -f /usr/bin/{hyperkube,kube-apiserver,kube-controller-manager,kube-scheduler,kubelet,kube-proxy,cloud-controller-manager,kubectl}
 
 echo -e "\033[33mWARNING: Delete kubernetes config!\033[0m"
 rm -rf /etc/kubernetes /var/log/kube-audit /var/lib/kubelet

@@ -1,0 +1,28 @@
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+address: 192.168.1.64
+authentication.anonymous: fasle
+cgroupDriver: cgroupfs
+clusterDNS:
+  - "10.254.0.2"
+clusterDomain: "cluster.local."
+failSwapOn: false
+healthzPort: 10248
+healthzBindAddress: 192.168.1.64
+featureGates:
+  RotateKubeletClientCertificate: true
+  RotateKubeletServerCertificate: true
+imageGCHighThresholdPercent: 70
+imageGCLowThresholdPercent: 50
+kubeReserved:
+  cpu: "500m"
+  memory: "512Mi"
+  ephemeral-storage: "1Gi"
+systemReserved:
+  cpu: "1000m"
+  memory: "1024Mi"
+  ephemeral-storage: "1Gi"
+serializeImagePulls: true
+syncFrequency: 30s
+resolvConf: "/etc/resolv.conf"
+rotateCertificates: true

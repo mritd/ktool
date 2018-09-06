@@ -1,0 +1,19 @@
+###
+# kubernetes proxy config
+# default config should be adequate
+# Add your own!
+KUBE_PROXY_ARGS="--bind-address=192.168.1.64 \
+                 --master=https://127.0.0.1:6443 \
+                 --proxy-mode=ipvs \
+                 --masquerade-all \
+                 --ipvs-min-sync-period=5s \
+                 --ipvs-sync-period=5s \
+                 --ipvs-scheduler=wrr \
+                 --cleanup-ipvs=true \
+                 --hostname-override=docker4.node \
+                 --healthz-bind-address=192.168.1.64 \
+                 --healthz-port=10256 \
+                 --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
+                 --cluster-cidr=10.254.0.0/16 \
+                 --logtostderr=true \
+                 --v=2"

@@ -1,0 +1,13 @@
+###
+# kubernetes scheduler config
+
+# default config should be adequate
+
+# Add your own!
+KUBE_SCHEDULER_ARGS="   --address=127.0.0.1 \
+                        --port=10251 \
+                        --master=http://127.0.0.1:8080 \
+                        --leader-elect=true \
+                        --algorithm-provider=DefaultProvider \
+                        --logtostderr=true \
+                        --v=2"

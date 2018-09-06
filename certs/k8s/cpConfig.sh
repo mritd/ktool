@@ -7,6 +7,5 @@ rm -f ../../k8s/conf/*.kubeconfig
 
 mkdir ../../k8s/conf/ssl
 cp *.pem ../../k8s/conf/ssl
-cp *.csv ../../k8s/conf
 cp *.yaml ../../k8s/conf
 cp *.kubeconfig ../../k8s/conf
