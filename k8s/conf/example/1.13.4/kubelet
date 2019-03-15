@@ -1,0 +1,49 @@
+###
+# kubernetes kubelet (minion) config
+
+# The address for the info server to serve on (set to 0.0.0.0 or "" for all interfaces)
+KUBELET_ADDRESS="--node-ip=192.168.1.51"
+
+# The port for the info server to serve on
+# KUBELET_PORT="--port=10250"
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME="--hostname-override=docker1.node"
+
+# location of the api-server
+# KUBELET_API_SERVER=""
+
+# Add your own!
+KUBELET_ARGS="  --address=0.0.0.0 \
+                --allow-privileged \
+                --anonymous-auth=false \
+                --authorization-mode=Webhook \
+                --bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+                --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --network-plugin=cni \
+                --cgroup-driver=cgroupfs \
+                --cert-dir=/etc/kubernetes/ssl \
+                --cluster-dns=10.254.0.2 \
+                --cluster-domain=cluster.local \
+                --cni-conf-dir=/etc/cni/net.d \
+                --eviction-soft=imagefs.available<15%,memory.available<512Mi,nodefs.available<15%,nodefs.inodesFree<10% \
+                --eviction-soft-grace-period=imagefs.available=3m,memory.available=1m,nodefs.available=3m,nodefs.inodesFree=1m \
+                --eviction-hard=imagefs.available<10%,memory.available<256Mi,nodefs.available<10%,nodefs.inodesFree<5% \
+                --eviction-max-pod-grace-period=30 \
+                --image-gc-high-threshold=80 \
+                --image-gc-low-threshold=70 \
+                --image-pull-progress-deadline=30s \
+                --kube-reserved=cpu=500m,memory=512Mi,ephemeral-storage=1Gi \
+                --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+                --max-pods=100 \
+                --minimum-image-ttl-duration=720h0m0s \
+                --node-labels=node.kubernetes.io/k8s-node=true \
+                --pod-infra-container-image=gcr.azk8s.cn/google_containers/pause-amd64:3.1 \
+                --port=10250 \
+                --read-only-port=0 \
+                --rotate-certificates \
+                --rotate-server-certificates \
+                --resolv-conf=/run/systemd/resolve/resolv.conf \
+                --system-reserved=cpu=500m,memory=512Mi,ephemeral-storage=1Gi \
+                --fail-swap-on=false \
+                --v=2"

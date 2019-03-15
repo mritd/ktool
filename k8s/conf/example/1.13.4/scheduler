@@ -1,0 +1,19 @@
+###
+# kubernetes scheduler config
+
+# default config should be adequate
+
+# Add your own!
+KUBE_SCHEDULER_ARGS="   --address=127.0.0.1 \
+                        --authentication-kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig \
+                        --authorization-kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig \
+                        --bind-address=0.0.0.0 \
+                        --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                        --kubeconfig=/etc/kubernetes/kube-scheduler.kubeconfig \
+                        --requestheader-client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                        --secure-port=10259 \
+                        --leader-elect=true \
+                        --port=10251 \
+                        --tls-cert-file=/etc/kubernetes/ssl/kube-scheduler.pem \
+                        --tls-private-key-file=/etc/kubernetes/ssl/kube-scheduler-key.pem \
+                        --v=2"

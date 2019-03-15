@@ -2,7 +2,7 @@
 
 set -e
 
-KUBE_DEFAULT_VERSION="1.11.2"
+KUBE_DEFAULT_VERSION="1.13.4"
 
 if [ "$1" != "" ]; then
   KUBE_VERSION=$1
@@ -53,7 +53,7 @@ function postinstall(){
     if [ ! -d "/usr/libexec" ]; then
         mkdir /usr/libexec
     fi
-    chown -R kube:kube /var/log/kube-audit /var/lib/kubelet /usr/libexec
+    chown -R kube:kube /etc/kubernetes /var/log/kube-audit /var/lib/kubelet /usr/libexec
 }
 
 

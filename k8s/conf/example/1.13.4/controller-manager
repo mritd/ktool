@@ -1,0 +1,34 @@
+###
+# The following values are used to configure the kubernetes controller-manager
+
+# defaults from config and apiserver should be adequate
+
+# Add your own!
+KUBE_CONTROLLER_MANAGER_ARGS="  --address=127.0.0.1 \
+                                --authentication-kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \
+                                --authorization-kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \
+                                --bind-address=192.168.1.51 \
+                                --cluster-name=kubernetes \
+                                --cluster-signing-cert-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --cluster-signing-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --controllers=*,bootstrapsigner,tokencleaner \
+                                --deployment-controller-sync-period=10s \
+                                --experimental-cluster-signing-duration=87600h0m0s \
+                                --enable-garbage-collector=true \
+                                --kubeconfig=/etc/kubernetes/kube-controller-manager.kubeconfig \
+                                --leader-elect=true \
+                                --node-monitor-grace-period=20s \
+                                --node-monitor-period=5s \
+                                --port=10252 \
+                                --pod-eviction-timeout=2m0s \
+                                --requestheader-client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --terminated-pod-gc-threshold=50 \
+                                --tls-cert-file=/etc/kubernetes/ssl/kube-controller-manager.pem \
+                                --tls-private-key-file=/etc/kubernetes/ssl/kube-controller-manager-key.pem \
+                                --root-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                                --secure-port=10257 \
+                                --service-cluster-ip-range=10.254.0.0/16 \
+                                --service-account-private-key-file=/etc/kubernetes/ssl/k8s-root-ca-key.pem \
+                                --use-service-account-credentials=true \
+                                --v=2"

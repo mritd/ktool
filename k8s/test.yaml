@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: test
-        image: nginx:1.14.0-alpine
+        image: nginx:1.14.2-alpine
         ports:
         - containerPort: 80
 ---

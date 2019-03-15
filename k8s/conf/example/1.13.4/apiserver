@@ -1,0 +1,56 @@
+###
+# kubernetes system config
+#
+# The following values are used to configure the kube-apiserver
+#
+
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--advertise-address=192.168.1.51 --bind-address=0.0.0.0"
+
+# The port on the local server to listen on.
+KUBE_API_PORT="--secure-port=6443"
+
+# Port minions listen on
+# KUBELET_PORT="--kubelet-port=10250"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd-servers=https://192.168.1.51:2379,https://192.168.1.52:2379,https://192.168.1.53:2379"
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
+
+# default admission control policies
+KUBE_ADMISSION_CONTROL="--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,Priority,ResourceQuota"
+
+# Add your own!
+KUBE_API_ARGS=" --allow-privileged=true \
+                --anonymous-auth=false \
+                --alsologtostderr \
+                --apiserver-count=3 \
+                --audit-log-maxage=30 \
+                --audit-log-maxbackup=3 \
+                --audit-log-maxsize=100 \
+                --audit-log-path=/var/log/kube-audit/audit.log \
+                --audit-policy-file=/etc/kubernetes/audit-policy.yaml \
+                --authorization-mode=Node,RBAC \
+                --client-ca-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --enable-bootstrap-token-auth \
+                --enable-garbage-collector \
+                --enable-logs-handler \
+                --endpoint-reconciler-type=lease \
+                --etcd-cafile=/etc/etcd/ssl/etcd-root-ca.pem \
+                --etcd-certfile=/etc/etcd/ssl/etcd.pem \
+                --etcd-keyfile=/etc/etcd/ssl/etcd-key.pem \
+                --etcd-compaction-interval=0s \
+                --event-ttl=168h0m0s \
+                --kubelet-https=true \
+                --kubelet-certificate-authority=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --kubelet-client-certificate=/etc/kubernetes/ssl/kubelet-api-admin.pem \
+                --kubelet-client-key=/etc/kubernetes/ssl/kubelet-api-admin-key.pem \
+                --kubelet-timeout=3s \
+                --runtime-config=api/all=true \
+                --service-node-port-range=30000-50000 \
+                --service-account-key-file=/etc/kubernetes/ssl/k8s-root-ca.pem \
+                --tls-cert-file=/etc/kubernetes/ssl/kube-apiserver.pem \
+                --tls-private-key-file=/etc/kubernetes/ssl/kube-apiserver-key.pem \
+                --v=2"

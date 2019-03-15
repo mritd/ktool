@@ -2,32 +2,22 @@
 
 set -e
 
-KUBE_VERSION="$1"
-
-if [ "" == "${KUBE_VERSION}" ]; then
-   echo -e "\033[33mWARNING: KUBE_VERSION is blank,use default version: 1.8\033[0m"
-   KUBE_VERSION="1.8"
-fi
-
-kubectl create clusterrolebinding kubelet-bootstrap \
+# 允许 kubelet tls bootstrap 创建 csr 请求
+kubectl create clusterrolebinding create-csrs-for-bootstrapping \
     --clusterrole=system:node-bootstrapper \
     --group=system:bootstrappers
 
-kubectl create -f tls-bootstrapping-clusterrole-${KUBE_VERSION}.yaml
-
 # 自动批准 system:bootstrappers 组用户 TLS bootstrapping 首次申请证书的 CSR 请求
-kubectl create clusterrolebinding node-client-auto-approve-csr \
-	--clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient \
-	--group=system:bootstrappers
+kubectl create clusterrolebinding auto-approve-csrs-for-group \
+    --clusterrole=system:certificates.k8s.io:certificatesigningrequests:nodeclient \
+    --group=system:bootstrappers
 
 # 自动批准 system:nodes 组用户更新 kubelet 自身与 apiserver 通讯证书的 CSR 请求
-kubectl create clusterrolebinding node-client-auto-renew-crt \
-	--clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeclient \
-	--group=system:nodes
+kubectl create clusterrolebinding auto-approve-renewals-for-nodes \
+    --clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeclient \
+    --group=system:nodes
 
-# 自动批准 system:nodes 组用户更新 kubelet 10250 api 端口证书的 CSR 请求
-kubectl create clusterrolebinding node-server-auto-renew-crt \
-	--clusterrole=system:certificates.k8s.io:certificatesigningrequests:selfnodeserver \
-	--group=system:nodes
-
-kubectl create clusterrolebinding kubelet-admin --clusterrole=system:kubelet-api-admin --user=kubernetes
+# 在 kubelet server 开启 api 认证的情况下，apiserver 反向访问 kubelet 10250 需要此授权(eg: kubectl logs)
+kubectl create clusterrolebinding system:kubelet-api-admin \
+    --clusterrole=system:kubelet-api-admin \
+    --user=system:kubelet-api-admin

@@ -1,5 +1,5 @@
 {
-    "CN": "system:kube-proxy",
+    "CN": "system:kubelet-api-admin",
     "hosts": [],
     "key": {
         "algo": "rsa",
@@ -10,7 +10,7 @@
             "C": "CN",
             "ST": "BeiJing",
             "L": "BeiJing",
-            "O": "system:kube-proxy",
+            "O": "system:kubelet-api-admin",
             "OU": "System"
         }
     ]
